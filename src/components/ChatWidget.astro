@@ -1,0 +1,59 @@
+---
+const endpoint = import.meta.env.PUBLIC_CHATWEB_ENDPOINT;
+---
+
+{endpoint && (
+  <>
+    <button
+      type="button"
+      class="fixed right-4 bottom-4 z-50 rounded-full border px-4 py-3 text-sm font-medium shadow-lg sm:right-6 sm:bottom-6"
+      style="background: color-mix(in srgb, var(--bg-elevated) 94%, transparent); color: var(--primary);"
+      data-chat-toggle
+      aria-expanded="false"
+      aria-controls="chat-panel"
+    >
+      Consulta rápida
+    </button>
+
+    <div
+      id="chat-panel"
+      class="fixed right-4 bottom-20 z-50 hidden h-[32rem] w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] border shadow-2xl sm:right-6 sm:bottom-24"
+      style="background: var(--bg-elevated);"
+      data-chat-panel
+    >
+      <div class="flex items-center justify-between border-b px-4 py-3">
+        <div>
+          <p class="text-sm font-semibold" style="color: var(--heading);">Asistente de Mente Aumentada</p>
+          <p class="text-xs" style="color: var(--text-soft);">Espacio discreto para resolver dudas iniciales.</p>
+        </div>
+        <button type="button" class="rounded-full p-2" data-chat-close aria-label="Cerrar chat">✕</button>
+      </div>
+      <iframe
+        src={endpoint}
+        title="Chat de Mente Aumentada"
+        class="h-[calc(100%-65px)] w-full"
+        loading="lazy"
+      ></iframe>
+    </div>
+
+    <script is:inline>
+      const toggle = document.querySelector('[data-chat-toggle]');
+      const panel = document.querySelector('[data-chat-panel]');
+      const close = document.querySelector('[data-chat-close]');
+
+      if (toggle && panel && close) {
+        const setOpen = (open) => {
+          panel.classList.toggle('hidden', !open);
+          toggle.setAttribute('aria-expanded', String(open));
+        };
+
+        toggle.addEventListener('click', () => {
+          const open = panel.classList.contains('hidden');
+          setOpen(open);
+        });
+
+        close.addEventListener('click', () => setOpen(false));
+      }
+    </script>
+  </>
+)}

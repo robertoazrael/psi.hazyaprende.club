@@ -1,0 +1,9 @@
+<script is:inline>
+  const storageKey = 'mente-aumentada-theme';
+  const root = document.documentElement;
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const stored = localStorage.getItem(storageKey);
+  const theme = stored === 'light' || stored === 'dark' ? stored : (prefersDark ? 'dark' : 'light');
+  root.classList.toggle('dark', theme === 'dark');
+  root.dataset.theme = theme;
+</script>

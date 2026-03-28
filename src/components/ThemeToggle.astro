@@ -1,0 +1,31 @@
+<button
+  type="button"
+  class="inline-flex h-11 w-11 items-center justify-center rounded-full border"
+  data-theme-toggle
+  aria-label="Cambiar entre modo claro y oscuro"
+  title="Cambiar tema"
+>
+  <span class="text-lg dark:hidden" aria-hidden="true">◐</span>
+  <span class="hidden text-lg dark:inline" aria-hidden="true">◑</span>
+</button>
+
+<script is:inline>
+  const storageKey = 'mente-aumentada-theme';
+
+  const syncTheme = (theme) => {
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.dataset.theme = theme;
+  };
+
+  const toggleTheme = () => {
+    const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem(storageKey, next);
+    syncTheme(next);
+  };
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', toggleTheme);
+  });
+</script>

@@ -1,1 +1,188 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Manrope", "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --color-brand-deep-blue: #2f4a5a;
+  --color-brand-secondary-blue: #3f6b7c;
+  --color-brand-teal: #7fafb0;
+  --color-brand-light-teal: #afcfcf;
+  --color-brand-text: #3a3a3a;
+  --color-brand-text-muted: #7a7a7a;
+  --color-brand-surface: #f5f5f5;
+  --color-brand-white: #ffffff;
+}
+
+:root {
+  color-scheme: light;
+  --bg: #f5f5f5;
+  --bg-elevated: #ffffff;
+  --bg-strong: #e8efef;
+  --bg-accent: #eff6f6;
+  --text: #3a3a3a;
+  --text-soft: #61707a;
+  --heading: #233946;
+  --border: rgba(47, 74, 90, 0.14);
+  --border-strong: rgba(47, 74, 90, 0.24);
+  --primary: #2f4a5a;
+  --primary-soft: #3f6b7c;
+  --accent: #7fafb0;
+  --accent-soft: #afcfcf;
+  --shadow: 0 20px 50px rgba(47, 74, 90, 0.12);
+}
+
+:root.dark {
+  color-scheme: dark;
+  --bg: #17252d;
+  --bg-elevated: #20343d;
+  --bg-strong: #243c47;
+  --bg-accent: #243943;
+  --text: #eef4f4;
+  --text-soft: #bdd0d1;
+  --heading: #ffffff;
+  --border: rgba(175, 207, 207, 0.16);
+  --border-strong: rgba(175, 207, 207, 0.32);
+  --primary: #afcfcf;
+  --primary-soft: #7fafb0;
+  --accent: #7fafb0;
+  --accent-soft: #3f6b7c;
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    @apply min-h-screen antialiased;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    @apply transition-colors duration-200;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .site-shell {
+    background:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 15%, transparent), transparent 32%),
+      linear-gradient(180deg, color-mix(in srgb, var(--bg-accent) 60%, transparent), transparent 18%),
+      var(--bg);
+  }
+
+  .container-shell {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-space {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .eyebrow {
+    @apply mb-4 inline-flex rounded-full px-3 py-1 text-sm font-medium;
+    background: color-mix(in srgb, var(--accent) 16%, var(--bg-elevated));
+    color: var(--primary);
+  }
+
+  .section-title {
+    @apply text-3xl font-semibold tracking-tight sm:text-4xl;
+    color: var(--heading);
+  }
+
+  .section-copy {
+    @apply mt-4 max-w-3xl text-base leading-8 sm:text-lg;
+    color: var(--text-soft);
+  }
+
+  .surface-card {
+    @apply rounded-[2rem] border;
+    background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+    box-shadow: var(--shadow);
+  }
+
+  .soft-panel {
+    @apply rounded-[1.75rem] border;
+    background: color-mix(in srgb, var(--bg-accent) 84%, transparent);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold;
+    background: var(--primary);
+    color: var(--bg-elevated);
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-soft);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-semibold;
+    background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);
+    color: var(--primary);
+  }
+
+  .btn-secondary:hover {
+    background: color-mix(in srgb, var(--bg-strong) 86%, transparent);
+  }
+
+  .field {
+    @apply w-full rounded-2xl border px-4 py-3 text-sm;
+    background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    color: var(--text);
+  }
+
+  .field::placeholder {
+    color: color-mix(in srgb, var(--text-soft) 80%, transparent);
+  }
+
+  .prose-legal h1,
+  .prose-legal h2 {
+    color: var(--heading);
+  }
+
+  .prose-legal h1 {
+    @apply text-4xl font-semibold tracking-tight;
+  }
+
+  .prose-legal h2 {
+    @apply mt-10 text-2xl font-semibold;
+  }
+
+  .prose-legal p,
+  .prose-legal li {
+    @apply mt-4 leading-8;
+    color: var(--text-soft);
+  }
+
+  .prose-legal ul {
+    @apply mt-4 list-disc pl-6;
+  }
+}

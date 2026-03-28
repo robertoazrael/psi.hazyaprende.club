@@ -1,0 +1,130 @@
+---
+const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
+---
+
+<section id="audio" class="section-space">
+  <div class="container-shell">
+    <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <div class="max-w-xl">
+        <span class="eyebrow">Introducción gratuita</span>
+        <h2 class="section-title">Escucha una introducción clara y breve para entender la IA aplicada a la psicología.</h2>
+        <p class="section-copy">
+          Recibe un audio introductorio para comprender por qué esta tecnología puede ayudarte a trabajar con más orden, claridad y capacidad de servicio, sin perder lo humano.
+        </p>
+      </div>
+
+      <div class="surface-card p-6 sm:p-8">
+        <form data-form="leadmagnet" data-endpoint={endpoint} class="space-y-5">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium">Nombre</span>
+              <input class="field" name="nombre" type="text" autocomplete="name" required />
+            </label>
+
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium">Email</span>
+              <input class="field" name="email" type="email" autocomplete="email" required />
+            </label>
+
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium">Teléfono</span>
+              <input class="field" name="telefono" type="tel" autocomplete="tel" />
+            </label>
+
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium">País</span>
+              <input class="field" name="pais" type="text" autocomplete="country-name" />
+            </label>
+
+            <label class="block sm:col-span-2">
+              <span class="mb-2 block text-sm font-medium">Especialidad o área</span>
+              <input class="field" name="especialidad" type="text" />
+            </label>
+
+            <label class="block sm:col-span-2">
+              <span class="mb-2 block text-sm font-medium">Comentario</span>
+              <textarea class="field min-h-28" name="comentario"></textarea>
+            </label>
+          </div>
+
+          <div class="space-y-3">
+            <label class="flex items-start gap-3 text-sm leading-6" style="color: var(--text-soft);">
+              <input type="checkbox" name="aviso_modulo_completo" class="mt-1 h-4 w-4 rounded border" />
+              <span>Quiero recibir aviso cuando esté disponible el módulo completo</span>
+            </label>
+            <label class="flex items-start gap-3 text-sm leading-6" style="color: var(--text-soft);">
+              <input type="checkbox" name="aviso_taller_vivo" class="mt-1 h-4 w-4 rounded border" />
+              <span>Quiero recibir aviso sobre el taller en vivo</span>
+            </label>
+          </div>
+
+          <p class="text-sm leading-6" style="color: var(--text-soft);">
+            Al enviar tus datos te daremos acceso al audio introductorio. Puedes darte de baja de futuras comunicaciones cuando quieras.
+          </p>
+
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <button type="submit" class="btn-primary">Recibir acceso al audio</button>
+            <p data-status class="text-sm" aria-live="polite" style="color: var(--text-soft);"></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const forms = document.querySelectorAll('[data-form="leadmagnet"]');
+
+  const setStatus = (node, message, isError = false) => {
+    node.textContent = message;
+    node.style.color = isError ? '#b04b4b' : 'var(--text-soft)';
+  };
+
+  forms.forEach((form) => {
+    const status = form.querySelector('[data-status]');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        setStatus(status, 'No hay un endpoint configurado para este formulario.', true);
+        return;
+      }
+
+      submitButton.disabled = true;
+      setStatus(status, 'Enviando...');
+
+      const formData = new FormData(form);
+      const payload = {
+        source: 'lead_magnet_waitlist',
+        nombre: formData.get('nombre'),
+        email: formData.get('email'),
+        telefono: formData.get('telefono'),
+        pais: formData.get('pais'),
+        especialidad: formData.get('especialidad'),
+        comentario: formData.get('comentario'),
+        aviso_modulo_completo: formData.get('aviso_modulo_completo') === 'on',
+        aviso_taller_vivo: formData.get('aviso_taller_vivo') === 'on'
+      };
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('request_failed');
+        }
+
+        window.location.href = '/gracias';
+      } catch {
+        submitButton.disabled = false;
+        setStatus(status, 'No se pudo enviar el formulario. Intenta de nuevo en unos momentos.', true);
+      }
+    });
+  });
+</script>

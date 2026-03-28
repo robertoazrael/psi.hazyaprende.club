@@ -1,0 +1,54 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const audioUrl = import.meta.env.PUBLIC_LEADMAGNET_AUDIO_URL;
+---
+
+<MainLayout
+  title="Gracias — Mente Aumentada"
+  description="Accede a la introducción gratuita en audio de Mente Aumentada y conoce el enfoque ético y práctico del proyecto."
+>
+  <section class="section-space">
+    <div class="container-shell">
+      <div class="mx-auto max-w-4xl space-y-8">
+        <div class="surface-card p-8 sm:p-10">
+          <span class="eyebrow">Registro exitoso</span>
+          <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl" style="color: var(--heading);">
+            Ya puedes escuchar la introducción gratuita.
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8" style="color: var(--text-soft);">
+            Este audio presenta de forma breve qué significa integrar IA a la psicología con una mirada práctica, ética y orientada a ampliar la capacidad profesional.
+          </p>
+        </div>
+
+        <div class="surface-card p-6 sm:p-8">
+          {audioUrl ? (
+            <audio controls class="w-full">
+              <source src={audioUrl} />
+              Tu navegador no soporta el reproductor de audio.
+            </audio>
+          ) : (
+            <p class="text-base leading-8" style="color: var(--text-soft);">
+              El audio aún no está configurado en esta instancia. Define `PUBLIC_LEADMAGNET_AUDIO_URL` para habilitarlo.
+            </p>
+          )}
+        </div>
+
+        <div class="soft-panel p-8">
+          <p class="text-sm font-medium uppercase tracking-[0.16em]" style="color: var(--primary);">
+            Próximamente
+          </p>
+          <h2 class="mt-4 text-3xl font-semibold tracking-tight" style="color: var(--heading);">
+            Acceso al Módulo 1 completo
+          </h2>
+          <p class="mt-4 max-w-2xl text-base leading-8" style="color: var(--text-soft);">
+            Si quieres enterarte primero cuando el siguiente paso esté disponible, vuelve al formulario principal y deja tu interés registrado.
+          </p>
+          <div class="mt-6">
+            <a href="/#audio" class="btn-primary">Quiero acceso anticipado</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

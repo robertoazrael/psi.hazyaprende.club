@@ -1,0 +1,27 @@
+---
+import logoDark from '../assets/branding/logo/mente-aumentada-logo-dark.svg';
+import logoLight from '../assets/branding/logo/mente-aumentada-logo-light.svg';
+
+export interface Props {
+  className?: string;
+}
+
+const { className = '' } = Astro.props;
+---
+
+<span class={`inline-flex items-center ${className}`}>
+  <img
+    src={logoDark.src}
+    alt="Mente Aumentada"
+    class="h-11 w-auto dark:hidden"
+    width="222"
+    height="54"
+  />
+  <img
+    src={logoLight.src}
+    alt="Mente Aumentada"
+    class="hidden h-11 w-auto dark:block"
+    width="222"
+    height="54"
+  />
+</span>

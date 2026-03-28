@@ -1,0 +1,42 @@
+---
+import heroDesktop from '../assets/branding/illustrations/hero-professional-augmented-desktop.webp';
+import heroMobile from '../assets/branding/illustrations/hero-professional-augmented-mobile.webp';
+---
+
+<section class="section-space pt-12 sm:pt-16">
+  <div class="container-shell">
+    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+      <div class="max-w-2xl">
+        <span class="eyebrow">Profesional aumentado</span>
+        <h1 class="text-5xl font-semibold tracking-tight sm:text-6xl" style="color: var(--heading);">
+          Mente Aumentada
+        </h1>
+        <p class="mt-6 text-2xl leading-tight sm:text-3xl" style="color: var(--primary);">
+          Integra IA en tu práctica sin perder lo humano
+        </p>
+        <p class="mt-6 max-w-xl text-lg leading-8" style="color: var(--text-soft);">
+          Libera tu tiempo, organiza mejor tu consulta y amplía tu impacto como psicólogo, sin complicarte con tecnología.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="#audio" class="btn-primary">Escuchar introducción gratuita</a>
+          <a href="#audio" class="btn-secondary">Quiero acceso anticipado</a>
+        </div>
+      </div>
+
+      <div class="surface-card overflow-hidden p-2">
+        <picture>
+          <source srcset={heroDesktop.src} media="(min-width: 768px)" />
+          <img
+            src={heroMobile.src}
+            alt="Profesional de psicología ampliando su práctica con apoyo de inteligencia artificial"
+            class="h-full w-full rounded-[1.5rem] object-cover"
+            loading="eager"
+            width="1200"
+            height="1000"
+          />
+        </picture>
+      </div>
+    </div>
+  </div>
+</section>

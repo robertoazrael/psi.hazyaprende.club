@@ -1,0 +1,32 @@
+---
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const links = [
+  { href: '/#enfoque', label: 'Enfoque' },
+  { href: '/#beneficios', label: 'Beneficios' },
+  { href: '/#temario', label: 'Temario' },
+  { href: '/#audio', label: 'Audio' }
+];
+---
+
+<header class="sticky top-0 z-40 border-b backdrop-blur-xl" style="background: color-mix(in srgb, var(--bg) 82%, transparent);">
+  <div class="container-shell flex min-h-18 items-center justify-between gap-4 py-3">
+    <a href="/" class="shrink-0" aria-label="Ir al inicio de Mente Aumentada">
+      <Logo />
+    </a>
+
+    <nav class="hidden items-center gap-6 md:flex" aria-label="Navegación principal">
+      {links.map((link) => (
+        <a href={link.href} class="text-sm font-medium" style="color: var(--text-soft);">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a href="/contacto" class="btn-secondary px-4 sm:px-6">Contacto</a>
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
