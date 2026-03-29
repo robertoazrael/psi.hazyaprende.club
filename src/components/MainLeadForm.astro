@@ -75,67 +75,27 @@ const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
   </div>
 </section>
 
-<script is:inline>
-  const forms = document.querySelectorAll('[data-form="leadmagnet"]');
+<script>
+  import { setupWebhookForm } from '../scripts/webhook-form';
 
-  const setStatus = (node, message, isError = false) => {
-    node.textContent = message;
-    node.style.color = isError ? '#b04b4b' : 'var(--text-soft)';
-  };
-
-  forms.forEach((form) => {
-    const status = form.querySelector('[data-status]');
-    const submitButton = form.querySelector('button[type="submit"]');
-    const defaultButtonText = submitButton.textContent;
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const endpoint = form.dataset.endpoint;
-      if (!endpoint) {
-        setStatus(status, 'No pudimos procesar tu registro. Inténtalo de nuevo en unos momentos.', true);
-        return;
-      }
-
-      submitButton.disabled = true;
-      submitButton.textContent = 'Enviando...';
-      setStatus(status, 'Procesando tu registro...');
-
-      const formData = new FormData(form);
-      const payload = {
-        source: 'mente_aumentada_home_leadmagnet',
-        nombre: formData.get('nombre'),
-        email: formData.get('email'),
-        telefono: formData.get('telefono'),
-        pais: formData.get('pais'),
-        especialidad: formData.get('especialidad'),
-        comentario: formData.get('comentario'),
-        interes_modulo: formData.get('interes_modulo') === 'on',
-        interes_taller: formData.get('interes_taller') === 'on'
-      };
-
-      try {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          throw new Error('request_failed');
-        }
-
-        const data = await response.json().catch(() => null);
-        if (!data || data.ok !== true) {
-          throw new Error('invalid_response');
-        }
-
-        window.location.href = '/gracias';
-      } catch {
-        submitButton.disabled = false;
-        submitButton.textContent = defaultButtonText;
-        setStatus(status, 'No pudimos procesar tu registro. Inténtalo de nuevo en unos momentos.', true);
-      }
-    });
+  setupWebhookForm({
+    selector: '[data-form="leadmagnet"]',
+    loadingMessage: 'Procesando tu registro...',
+    errorMessage: 'No pudimos procesar tu registro. Inténtalo de nuevo en unos momentos.',
+    getPayload: (formData, interactionDelay) => ({
+      source: 'mente_aumentada_home_leadmagnet',
+      nombre: String(formData.get('nombre') ?? ''),
+      email: String(formData.get('email') ?? ''),
+      telefono: String(formData.get('telefono') ?? ''),
+      pais: String(formData.get('pais') ?? ''),
+      especialidad: String(formData.get('especialidad') ?? ''),
+      comentario: String(formData.get('comentario') ?? ''),
+      interes_modulo: formData.get('interes_modulo') === 'on',
+      interes_taller: formData.get('interes_taller') === 'on',
+      interaction_delay: interactionDelay
+    }),
+    onSuccess: () => {
+      window.location.href = '/gracias';
+    }
   });
 </script>
