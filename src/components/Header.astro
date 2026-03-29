@@ -15,10 +15,10 @@ const links = [
     <a href="/" class="flex min-w-0 shrink items-center gap-3" aria-label="Ir al inicio de Mente Aumentada">
       <Logo className="shrink-0" />
       <span
-        class="inline-flex rounded-full border px-2.5 py-1 text-[0.65rem] font-semibold tracking-[0.14em] sm:px-3 sm:text-xs"
-        style="color: var(--text-soft); background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);"
+        class="inline-flex text-[0.65rem] font-medium tracking-[0.12em] sm:text-xs"
+        style="color: color-mix(in srgb, var(--text-soft) 82%, transparent);"
       >
-        PSI + IA
+        IA para psicólogos
       </span>
     </a>
 
@@ -31,7 +31,13 @@ const links = [
     </nav>
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="/#audio" class="btn-secondary px-4 sm:px-6">Empieza aquí</a>
+      <a
+        href="/#audio"
+        class="hidden text-sm font-medium md:inline-flex"
+        style="color: color-mix(in srgb, var(--text-soft) 92%, transparent);"
+      >
+        Empieza aquí
+      </a>
       <ThemeToggle />
       <button
         type="button"
