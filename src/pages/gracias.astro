@@ -1,7 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-
-const audioUrl = import.meta.env.PUBLIC_LEADMAGNET_AUDIO_URL;
+const audioUrl = '/audio/audio-modulo1.mp3';
 ---
 
 <MainLayout
@@ -14,38 +13,54 @@ const audioUrl = import.meta.env.PUBLIC_LEADMAGNET_AUDIO_URL;
         <div class="surface-card p-8 sm:p-10">
           <span class="eyebrow">Registro exitoso</span>
           <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl" style="color: var(--heading);">
-            Ya puedes escuchar la introducción gratuita.
+            Ya tienes acceso a la introducción gratuita
           </h1>
           <p class="mt-5 max-w-2xl text-lg leading-8" style="color: var(--text-soft);">
-            Este audio presenta de forma breve qué significa integrar IA a la psicología con una mirada práctica, ética y orientada a ampliar la capacidad profesional.
+            Escúchala con calma. En este audio conocerás los conceptos base de IA aplicada a psicología que se usarán en el resto del curso.
           </p>
         </div>
 
-        <div class="surface-card p-6 sm:p-8">
-          {audioUrl ? (
-            <audio controls class="w-full">
-              <source src={audioUrl} />
+        <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div class="soft-panel p-6 sm:p-8">
+            <h2 class="text-2xl font-semibold tracking-tight" style="color: var(--heading);">
+              Antes de escucharlo
+            </h2>
+            <ul class="mt-5 space-y-3 text-base leading-8" style="color: var(--text-soft);">
+              <li>Qué es realmente la IA generativa</li>
+              <li>Qué son los LLM y por qué importan</li>
+              <li>Qué sí puede usar hoy un psicólogo</li>
+              <li>Qué no debe delegarse</li>
+            </ul>
+          </div>
+
+          <div class="surface-card p-6 sm:p-8">
+            <audio controls preload="none" class="w-full">
+              <source src={audioUrl} type="audio/mpeg" />
               Tu navegador no soporta el reproductor de audio.
             </audio>
-          ) : (
-            <p class="text-base leading-8" style="color: var(--text-soft);">
-              El audio aún no está configurado en esta instancia. Define `PUBLIC_LEADMAGNET_AUDIO_URL` para habilitarlo.
+
+            <div class="mt-5 flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:justify-between" style="color: var(--text-soft);">
+              <p>Duración: 20:02</p>
+              <a href={audioUrl} download class="font-medium" style="color: var(--primary);">
+                Descargar audio
+              </a>
+            </div>
+
+            <p class="mt-4 text-sm leading-6" style="color: var(--text-soft);">
+              Puedes escucharlo ahora o guardarlo para después.
             </p>
-          )}
+          </div>
         </div>
 
         <div class="soft-panel p-8">
-          <p class="text-sm font-medium uppercase tracking-[0.16em]" style="color: var(--primary);">
-            Próximamente
-          </p>
-          <h2 class="mt-4 text-3xl font-semibold tracking-tight" style="color: var(--heading);">
-            Acceso al Módulo 1 completo
+          <h2 class="text-2xl font-semibold tracking-tight" style="color: var(--heading);">
+            ¿Quieres enterarte cuando esté disponible la siguiente versión del curso?
           </h2>
           <p class="mt-4 max-w-2xl text-base leading-8" style="color: var(--text-soft);">
-            Si quieres enterarte primero cuando el siguiente paso esté disponible, vuelve al formulario principal y deja tu interés registrado.
+            Vuelve al formulario principal y deja tus datos para recibir el siguiente paso cuando esté disponible.
           </p>
           <div class="mt-6">
-            <a href="/#audio" class="btn-primary">Anótate a la siguiente versión</a>
+            <a href="/#audio" class="btn-primary">Anotarme para el siguiente paso</a>
           </div>
         </div>
       </div>

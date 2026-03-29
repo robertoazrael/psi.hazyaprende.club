@@ -52,11 +52,11 @@ const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
 
           <div class="space-y-3">
             <label class="flex items-start gap-3 text-sm leading-6" style="color: var(--text-soft);">
-              <input type="checkbox" name="aviso_modulo_completo" class="mt-1 h-4 w-4 rounded border" />
+              <input type="checkbox" name="interes_modulo" class="mt-1 h-4 w-4 rounded border" />
               <span>Quiero recibir aviso cuando esté disponible el módulo completo</span>
             </label>
             <label class="flex items-start gap-3 text-sm leading-6" style="color: var(--text-soft);">
-              <input type="checkbox" name="aviso_taller_vivo" class="mt-1 h-4 w-4 rounded border" />
+              <input type="checkbox" name="interes_taller" class="mt-1 h-4 w-4 rounded border" />
               <span>Quiero recibir aviso sobre el taller en vivo</span>
             </label>
           </div>
@@ -86,30 +86,32 @@ const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
   forms.forEach((form) => {
     const status = form.querySelector('[data-status]');
     const submitButton = form.querySelector('button[type="submit"]');
+    const defaultButtonText = submitButton.textContent;
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const endpoint = form.dataset.endpoint;
       if (!endpoint) {
-        setStatus(status, 'No hay un endpoint configurado para este formulario.', true);
+        setStatus(status, 'No pudimos procesar tu registro. Inténtalo de nuevo en unos momentos.', true);
         return;
       }
 
       submitButton.disabled = true;
-      setStatus(status, 'Enviando...');
+      submitButton.textContent = 'Enviando...';
+      setStatus(status, 'Procesando tu registro...');
 
       const formData = new FormData(form);
       const payload = {
-        source: 'lead_magnet_waitlist',
+        source: 'mente_aumentada_home_leadmagnet',
         nombre: formData.get('nombre'),
         email: formData.get('email'),
         telefono: formData.get('telefono'),
         pais: formData.get('pais'),
         especialidad: formData.get('especialidad'),
         comentario: formData.get('comentario'),
-        aviso_modulo_completo: formData.get('aviso_modulo_completo') === 'on',
-        aviso_taller_vivo: formData.get('aviso_taller_vivo') === 'on'
+        interes_modulo: formData.get('interes_modulo') === 'on',
+        interes_taller: formData.get('interes_taller') === 'on'
       };
 
       try {
@@ -123,10 +125,16 @@ const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
           throw new Error('request_failed');
         }
 
+        const data = await response.json().catch(() => null);
+        if (!data || data.ok !== true) {
+          throw new Error('invalid_response');
+        }
+
         window.location.href = '/gracias';
       } catch {
         submitButton.disabled = false;
-        setStatus(status, 'No se pudo enviar el formulario. Intenta de nuevo en unos momentos.', true);
+        submitButton.textContent = defaultButtonText;
+        setStatus(status, 'No pudimos procesar tu registro. Inténtalo de nuevo en unos momentos.', true);
       }
     });
   });
