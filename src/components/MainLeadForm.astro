@@ -5,15 +5,18 @@ const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
 <section id="audio" class="section-space">
   <div class="container-shell">
     <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-      <div class="max-w-xl">
+      <div class="max-w-xl reveal" style="--reveal-order: 0;">
         <span class="eyebrow">Introducción gratuita</span>
         <h2 class="section-title">Escucha una introducción clara y breve para entender la IA aplicada a la psicología.</h2>
         <p class="section-copy">
-          Recibe un audio introductorio para comprender por qué esta tecnología puede ayudarte a trabajar con más orden, claridad y capacidad de servicio, sin perder lo humano.
+          Escucha una introducción clara y breve para entender cómo la IA puede ayudarte en tu práctica como psicólogo, sin perder el criterio clínico.
+        </p>
+        <p class="mt-5 max-w-xl text-base leading-8" style="color: var(--text-soft);">
+          Anótate a la siguiente versión del curso y recibe aviso cuando esté disponible.
         </p>
       </div>
 
-      <div class="surface-card p-6 sm:p-8">
+      <div class="surface-card reveal p-6 sm:p-8" style="--reveal-order: 1;">
         <form data-form="leadmagnet" data-endpoint={endpoint} class="space-y-5">
           <div class="grid gap-5 sm:grid-cols-2">
             <label class="block">
@@ -63,7 +66,7 @@ const endpoint = import.meta.env.PUBLIC_MODULE1_WAITLIST_ENDPOINT;
           </p>
 
           <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <button type="submit" class="btn-primary">Recibir acceso al audio</button>
+            <button type="submit" class="btn-primary">Acceder a la introducción</button>
             <p data-status class="text-sm" aria-live="polite" style="color: var(--text-soft);"></p>
           </div>
         </form>

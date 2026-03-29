@@ -26,11 +26,15 @@
   --border-strong: rgba(47, 74, 90, 0.24);
   --primary: #2f4a5a;
   --primary-soft: #3f6b7c;
+  --primary-contrast: #ffffff;
   --accent: #7fafb0;
   --accent-soft: #afcfcf;
-  --shadow: 0 20px 50px rgba(47, 74, 90, 0.12);
+  --shadow: 0 24px 60px rgba(47, 74, 90, 0.09);
+  --shadow-soft: 0 12px 30px rgba(47, 74, 90, 0.08);
+  --shadow-hover: 0 28px 72px rgba(47, 74, 90, 0.14);
 }
 
+html[data-theme="dark"],
 :root.dark {
   color-scheme: dark;
   --bg: #17252d;
@@ -44,9 +48,12 @@
   --border-strong: rgba(175, 207, 207, 0.32);
   --primary: #afcfcf;
   --primary-soft: #7fafb0;
+  --primary-contrast: #17252d;
   --accent: #7fafb0;
   --accent-soft: #3f6b7c;
-  --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+  --shadow: 0 24px 56px rgba(0, 0, 0, 0.24);
+  --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.18);
+  --shadow-hover: 0 32px 74px rgba(0, 0, 0, 0.32);
 }
 
 html {
@@ -77,7 +84,9 @@ body {
   input,
   textarea,
   select {
-    @apply transition-colors duration-200;
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: 240ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   a:focus-visible,
@@ -88,13 +97,29 @@ body {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 1ms !important;
+      transition-delay: 0ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer components {
   .site-shell {
     background:
-      radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 15%, transparent), transparent 32%),
-      linear-gradient(180deg, color-mix(in srgb, var(--bg-accent) 60%, transparent), transparent 18%),
+      radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 16%, transparent), transparent 30%),
+      radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--accent-soft) 12%, transparent), transparent 24%),
+      linear-gradient(180deg, color-mix(in srgb, var(--bg-accent) 64%, transparent), transparent 18%),
       var(--bg);
   }
 
@@ -103,13 +128,14 @@ body {
   }
 
   .section-space {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-18 sm:py-22 lg:py-26;
   }
 
   .eyebrow {
-    @apply mb-4 inline-flex rounded-full px-3 py-1 text-sm font-medium;
+    @apply mb-4 inline-flex rounded-full border px-3 py-1 text-sm font-medium;
     background: color-mix(in srgb, var(--accent) 16%, var(--bg-elevated));
     color: var(--primary);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bg-elevated) 65%, transparent);
   }
 
   .section-title {
@@ -131,16 +157,20 @@ body {
   .soft-panel {
     @apply rounded-[1.75rem] border;
     background: color-mix(in srgb, var(--bg-accent) 84%, transparent);
+    box-shadow: var(--shadow-soft);
   }
 
   .btn-primary {
     @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold;
     background: var(--primary);
-    color: var(--bg-elevated);
+    color: var(--primary-contrast);
+    box-shadow: 0 14px 30px color-mix(in srgb, var(--primary) 26%, transparent);
   }
 
   .btn-primary:hover {
     background: var(--primary-soft);
+    transform: translateY(-1px);
+    box-shadow: 0 18px 34px color-mix(in srgb, var(--primary) 32%, transparent);
   }
 
   .btn-secondary {
@@ -151,16 +181,97 @@ body {
 
   .btn-secondary:hover {
     background: color-mix(in srgb, var(--bg-strong) 86%, transparent);
+    transform: translateY(-1px);
   }
 
   .field {
     @apply w-full rounded-2xl border px-4 py-3 text-sm;
     background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
     color: var(--text);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--bg-elevated) 45%, transparent);
   }
 
   .field::placeholder {
     color: color-mix(in srgb, var(--text-soft) 80%, transparent);
+  }
+
+  .field:hover {
+    border-color: var(--border-strong);
+  }
+
+  .field:focus-visible {
+    border-color: color-mix(in srgb, var(--accent) 70%, var(--border));
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--bg-elevated) 55%, transparent);
+  }
+
+  .theme-image-light {
+    display: inline-flex;
+  }
+
+  .theme-image-dark {
+    display: none;
+  }
+
+  html[data-theme="dark"] .theme-image-light {
+    display: none;
+  }
+
+  html[data-theme="dark"] .theme-image-dark {
+    display: inline-flex;
+  }
+
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.45rem;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0.3);
+    transform-origin: left;
+    opacity: 0;
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+    opacity: 0.75;
+  }
+
+  .interactive-lift:hover,
+  .interactive-lift:focus-within {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--border-strong);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--reveal-order, 0) * 80ms);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .prose-legal h1,

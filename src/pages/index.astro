@@ -45,19 +45,21 @@ const syllabus = [
 
   <section id="problema" class="section-space">
     <div class="container-shell">
-      <SectionIntro
-        eyebrow="El problema"
-        title="La práctica se vuelve más exigente cuando todo depende de tu tiempo y tu atención."
-        copy="Sobrecarga operativa, poco tiempo para pacientes, información dispersa y una curiosidad legítima por la IA que suele mezclarse con confusión, ruido y miedo a usarla mal."
-      />
+      <div class="reveal" style="--reveal-order: 0;">
+        <SectionIntro
+          eyebrow="El problema"
+          title="La práctica se vuelve más exigente cuando todo depende de tu tiempo y tu atención."
+          copy="Sobrecarga operativa, poco tiempo para pacientes, información dispersa y una curiosidad legítima por la IA que suele mezclarse con confusión, ruido y miedo a usarla mal."
+        />
+      </div>
       <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
           'Demasiadas tareas operativas alrededor de cada consulta.',
           'Poco espacio para pensar con calma entre casos y sesiones.',
           'Información clínica y administrativa repartida en demasiados lugares.',
           'Interés por la IA, pero sin una guía seria para usarla con criterio.'
-        ].map((item) => (
-          <div class="soft-panel p-6">
+        ].map((item, index) => (
+          <div class="soft-panel interactive-lift reveal p-6" style={`--reveal-order: ${index + 1};`}>
             <p class="text-base leading-7">{item}</p>
           </div>
         ))}
@@ -67,7 +69,7 @@ const syllabus = [
 
   <section id="enfoque" class="section-space pt-0">
     <div class="container-shell">
-      <div class="surface-card grid gap-8 p-8 lg:grid-cols-[1.05fr_0.95fr] lg:p-10">
+      <div class="surface-card reveal grid gap-8 p-8 lg:grid-cols-[1.05fr_0.95fr] lg:p-10" style="--reveal-order: 0;">
         <div>
           <SectionIntro
             eyebrow="El enfoque"
@@ -80,8 +82,8 @@ const syllabus = [
             'Más claridad para analizar, priorizar y dar seguimiento.',
             'Más tiempo para la relación terapéutica y la toma de decisiones humanas.',
             'Menos fricción operativa en procesos que hoy te drenan energía.'
-          ].map((item) => (
-            <div class="rounded-[1.5rem] border p-5" style="background: color-mix(in srgb, var(--bg-accent) 88%, transparent);">
+          ].map((item, index) => (
+            <div class="rounded-[1.5rem] border p-5" style={`background: color-mix(in srgb, var(--bg-accent) 88%, transparent); --reveal-order: ${index + 1};`}>
               <p class="text-base leading-7">{item}</p>
             </div>
           ))}
@@ -92,14 +94,16 @@ const syllabus = [
 
   <section id="beneficios" class="section-space pt-0">
     <div class="container-shell">
-      <SectionIntro
-        eyebrow="Beneficios"
-        title="Aplicaciones concretas para una práctica más clara, más ordenada y mejor acompañada."
-      />
+      <div class="reveal" style="--reveal-order: 0;">
+        <SectionIntro
+          eyebrow="Beneficios"
+          title="Aplicaciones concretas para una práctica más clara, más ordenada y mejor acompañada."
+        />
+      </div>
 
       <div class="mt-10 grid gap-6 lg:grid-cols-2">
         {benefits.map((benefit, index) => (
-          <article class="surface-card overflow-hidden">
+          <article class="surface-card interactive-lift reveal overflow-hidden" style={`--reveal-order: ${index + 1};`}>
             <div class="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
               <img
                 src={[clarityImage.src, humanSupportImage.src, moduleImage.src, clarityImage.src][index]}
@@ -126,7 +130,7 @@ const syllabus = [
   <section id="marco-etico" class="section-space pt-0">
     <div class="container-shell">
       <div class="grid gap-8 lg:grid-cols-[1fr_0.92fr] lg:items-center">
-        <div>
+        <div class="reveal" style="--reveal-order: 0;">
           <SectionIntro
             eyebrow="Marco ético"
             title="La tecnología apoya tareas y procesos. El criterio clínico sigue siendo humano."
@@ -140,7 +144,7 @@ const syllabus = [
           </ul>
         </div>
 
-        <div class="surface-card overflow-hidden p-2">
+        <div class="surface-card interactive-lift reveal overflow-hidden p-2" style="--reveal-order: 1;">
           <img
             src={ethicalImage.src}
             alt="Práctica ética con apoyo tecnológico en psicología"
@@ -156,15 +160,16 @@ const syllabus = [
 
   <section id="temario" class="section-space pt-0">
     <div class="container-shell">
-      <SectionIntro
-        eyebrow="Temario resumido"
-        title="Una vista preliminar del recorrido formativo."
-        copy="El curso completo llegará después. Por ahora, esta primera versión muestra los ejes centrales del enfoque."
-      />
+      <div class="reveal" style="--reveal-order: 0;">
+        <SectionIntro
+          eyebrow="Temario del curso"
+          title="Este es el recorrido que se trabaja en la primera versión del curso."
+        />
+      </div>
 
       <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {syllabus.map((item) => (
-          <div class="soft-panel p-6">
+        {syllabus.map((item, index) => (
+          <div class="soft-panel interactive-lift reveal p-6" style={`--reveal-order: ${index + 1};`}>
             <p class="text-lg font-medium" style="color: var(--heading);">{item}</p>
           </div>
         ))}
@@ -176,12 +181,33 @@ const syllabus = [
 
   <section id="quienes-somos" class="section-space pt-0">
     <div class="container-shell">
-      <div class="surface-card p-8 lg:p-10">
-        <SectionIntro
-          eyebrow="Quiénes somos"
-          title="Una propuesta construida entre perspectiva clínica y perspectiva técnica."
-          copy="Mente Aumentada nace de la unión entre sensibilidad clínica, comprensión del trabajo terapéutico y capacidad técnica para traducir herramientas complejas en procesos útiles, claros y sostenibles. La intención es acompañar una integración seria, no imponer tecnología por moda."
-        />
+      <div class="surface-card reveal p-8 lg:p-10" style="--reveal-order: 0;">
+        <span class="eyebrow">Quiénes somos</span>
+        <h2 class="section-title">Mente Aumentada une experiencia clínica y experiencia técnica en un mismo curso.</h2>
+        <div class="mt-8 grid gap-6 lg:grid-cols-2">
+          <article class="soft-panel p-6">
+            <h3 class="text-2xl font-semibold" style="color: var(--heading);">Roberto Medina</h3>
+            <p class="mt-2 text-sm font-medium uppercase tracking-[0.14em]" style="color: var(--primary);">
+              Ingeniero de Software
+            </p>
+            <p class="mt-4 text-base leading-8" style="color: var(--text-soft);">
+              Especializado en desarrollo de sistemas y automatización, con enfoque en inteligencia artificial generativa desde sus primeras etapas. Ha desarrollado soluciones prácticas para integrar IA en procesos reales sin complejidad técnica innecesaria.
+            </p>
+          </article>
+
+          <article class="soft-panel p-6">
+            <h3 class="text-2xl font-semibold" style="color: var(--heading);">Alma Fernández</h3>
+            <p class="mt-2 text-sm font-medium uppercase tracking-[0.14em]" style="color: var(--primary);">
+              Psicóloga
+            </p>
+            <p class="mt-4 text-base leading-8" style="color: var(--text-soft);">
+              Con experiencia clínica y trabajo con pacientes en Mérida, Argentina y México. Especializada en acompañamiento y educación de personas mayores, con enfoque humano, claro y accesible.
+            </p>
+          </article>
+        </div>
+        <p class="mt-8 max-w-3xl text-lg leading-8" style="color: var(--text-soft);">
+          Este proyecto une dos perspectivas: la clínica y la técnica, para traducir herramientas complejas en procesos útiles dentro de la práctica real.
+        </p>
       </div>
     </div>
   </section>
@@ -209,13 +235,13 @@ const syllabus = [
       <div class="surface-card p-8 text-center lg:p-12">
         <span class="eyebrow">Cierre</span>
         <h2 class="mx-auto max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl" style="color: var(--heading);">
-          Empieza con la introducción gratuita y quédate en lista para el acceso anticipado.
+          Anótate a la siguiente versión del curso
         </h2>
         <p class="mx-auto mt-4 max-w-2xl text-base leading-8 sm:text-lg" style="color: var(--text-soft);">
-          Recibe primero una explicación breve y clara. Después podrás enterarte cuando esté disponible el siguiente paso del proyecto.
+          El curso se está construyendo y actualizando. Puedes empezar con la introducción gratuita y anotarte para recibir acceso anticipado cuando esté disponible.
         </p>
         <div class="mt-8">
-          <a href="#audio" class="btn-primary">Quiero escuchar la introducción</a>
+          <a href="#audio" class="btn-primary">Escuchar introducción gratuita</a>
         </div>
       </div>
     </div>

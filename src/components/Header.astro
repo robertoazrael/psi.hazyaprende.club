@@ -6,27 +6,109 @@ const links = [
   { href: '/#enfoque', label: 'Enfoque' },
   { href: '/#beneficios', label: 'Beneficios' },
   { href: '/#temario', label: 'Temario' },
-  { href: '/#audio', label: 'Audio' }
+  { href: '/#audio', label: 'Empieza aquí' }
 ];
 ---
 
 <header class="sticky top-0 z-40 border-b backdrop-blur-xl" style="background: color-mix(in srgb, var(--bg) 82%, transparent);">
-  <div class="container-shell flex min-h-18 items-center justify-between gap-4 py-3">
+  <div class="container-shell flex min-h-20 items-center justify-between gap-4 py-3">
     <a href="/" class="shrink-0" aria-label="Ir al inicio de Mente Aumentada">
       <Logo />
     </a>
 
     <nav class="hidden items-center gap-6 md:flex" aria-label="Navegación principal">
       {links.map((link) => (
-        <a href={link.href} class="text-sm font-medium" style="color: var(--text-soft);">
+        <a href={link.href} class="nav-link text-sm font-medium" style="color: var(--text-soft);">
           {link.label}
         </a>
       ))}
     </nav>
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="/contacto" class="btn-secondary px-4 sm:px-6">Contacto</a>
+      <a href="/contacto" class="btn-secondary hidden px-4 sm:px-6 md:inline-flex">Contacto</a>
       <ThemeToggle />
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border md:hidden"
+        data-mobile-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+        aria-label="Abrir menú principal"
+        title="Abrir menú"
+      >
+        <span data-menu-icon-open aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </span>
+        <span data-menu-icon-close class="hidden" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </span>
+      </button>
     </div>
   </div>
+
+  <div
+    id="mobile-navigation"
+    class="container-shell hidden border-t py-4 md:hidden"
+    data-mobile-menu
+    style="background: color-mix(in srgb, var(--bg) 94%, transparent);"
+  >
+    <nav class="flex flex-col gap-2" aria-label="Navegación principal móvil">
+      {links.map((link) => (
+        <a href={link.href} class="rounded-2xl px-3 py-3 text-sm font-medium" style="color: var(--text-soft);">
+          {link.label}
+        </a>
+      ))}
+      <a href="/contacto" class="rounded-2xl px-3 py-3 text-sm font-medium" style="color: var(--text-soft);">
+        Contacto
+      </a>
+    </nav>
+  </div>
 </header>
+
+<script is:inline>
+  (() => {
+    const header = document.querySelector('header');
+    if (!header) return;
+
+    const updateHeader = () => {
+      const scrolled = window.scrollY > 10;
+      header.style.background = scrolled
+        ? 'color-mix(in srgb, var(--bg) 88%, transparent)'
+        : 'color-mix(in srgb, var(--bg) 78%, transparent)';
+      header.style.boxShadow = scrolled ? '0 10px 30px color-mix(in srgb, var(--primary) 10%, transparent)' : 'none';
+    };
+
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+
+    const toggle = header.querySelector('[data-mobile-menu-toggle]');
+    const menu = header.querySelector('[data-mobile-menu]');
+    const openIcon = header.querySelector('[data-menu-icon-open]');
+    const closeIcon = header.querySelector('[data-menu-icon-close]');
+
+    if (!toggle || !menu || !openIcon || !closeIcon) return;
+
+    const setMenuState = (open) => {
+      menu.classList.toggle('hidden', !open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú principal' : 'Abrir menú principal');
+      toggle.setAttribute('title', open ? 'Cerrar menú' : 'Abrir menú');
+      openIcon.classList.toggle('hidden', open);
+      closeIcon.classList.toggle('hidden', !open);
+    };
+
+    setMenuState(false);
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      setMenuState(!expanded);
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setMenuState(false));
+    });
+  })();
+</script>

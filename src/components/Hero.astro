@@ -3,18 +3,21 @@ import heroDesktop from '../assets/branding/illustrations/hero-professional-augm
 import heroMobile from '../assets/branding/illustrations/hero-professional-augmented-mobile.webp';
 ---
 
-<section class="section-space pt-12 sm:pt-16">
+<section class="section-space pt-10 sm:pt-14">
   <div class="container-shell">
-    <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-      <div class="max-w-2xl">
+    <div class="grid items-center gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+      <div class="max-w-2xl reveal" style="--reveal-order: 0;">
         <span class="eyebrow">Profesional aumentado</span>
-        <h1 class="text-5xl font-semibold tracking-tight sm:text-6xl" style="color: var(--heading);">
+        <h1 class="max-w-xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl" style="color: var(--heading);">
           Mente Aumentada
         </h1>
-        <p class="mt-6 text-2xl leading-tight sm:text-3xl" style="color: var(--primary);">
-          Integra IA en tu práctica sin perder lo humano
+        <p class="mt-6 max-w-xl text-2xl leading-tight sm:text-3xl" style="color: var(--primary);">
+          Curso introductorio de IA aplicada a la psicología
         </p>
         <p class="mt-6 max-w-xl text-lg leading-8" style="color: var(--text-soft);">
+          Empieza con una introducción gratuita y anótate para la siguiente versión del curso.
+        </p>
+        <p class="mt-4 max-w-xl text-lg leading-8" style="color: var(--text-soft);">
           Libera tu tiempo, organiza mejor tu consulta y amplía tu impacto como psicólogo, sin complicarte con tecnología.
         </p>
 
@@ -24,7 +27,7 @@ import heroMobile from '../assets/branding/illustrations/hero-professional-augme
         </div>
       </div>
 
-      <div class="surface-card overflow-hidden p-2">
+      <div class="surface-card interactive-lift overflow-hidden p-2 reveal" style="--reveal-order: 1;">
         <picture>
           <source srcset={heroDesktop.src} media="(min-width: 768px)" />
           <img
