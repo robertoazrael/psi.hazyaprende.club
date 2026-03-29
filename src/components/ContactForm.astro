@@ -27,7 +27,7 @@ const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
 
       <label class="block sm:col-span-2">
         <span class="mb-2 block text-sm font-medium">Mensaje</span>
-        <textarea class="field min-h-36" name="mensaje" required></textarea>
+        <textarea class="field min-h-36" name="mensaje"></textarea>
       </label>
     </div>
 
@@ -38,58 +38,34 @@ const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT;
   </form>
 </div>
 
-<script is:inline>
-  const forms = document.querySelectorAll('[data-form="contacto-general"]');
+<script>
+  import { setupWebhookForm } from '../scripts/webhook-form';
 
-  const setStatus = (node, message, isError = false) => {
-    node.textContent = message;
-    node.style.color = isError ? '#b04b4b' : 'var(--text-soft)';
-  };
+  setupWebhookForm({
+    selector: '[data-form="contacto-general"]',
+    loadingMessage: 'Enviando tu mensaje...',
+    successMessage: 'Gracias. Tu mensaje fue enviado correctamente.',
+    errorMessage: 'No pudimos enviar tu mensaje. Inténtalo de nuevo en unos momentos.',
+    getPayload: (formData, interactionDelay) => ({
+      source: 'mente_aumentada_contacto',
+      nombre: String(formData.get('nombre') ?? ''),
+      email: String(formData.get('email') ?? ''),
+      organizacion: String(formData.get('organizacion') ?? ''),
+      motivo: String(formData.get('motivo') ?? ''),
+      mensaje: String(formData.get('mensaje') ?? ''),
+      interaction_delay: interactionDelay
+    }),
+    onSuccess: ({ form }) => {
+      const submitButton = form.querySelector('button[type="submit"]');
 
-  forms.forEach((form) => {
-    const status = form.querySelector('[data-status]');
-    const submitButton = form.querySelector('button[type="submit"]');
+      form.reset();
+      form.removeAttribute('aria-busy');
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const endpoint = form.dataset.endpoint;
-      if (!endpoint) {
-        setStatus(status, 'No hay un endpoint configurado para este formulario.', true);
-        return;
-      }
-
-      submitButton.disabled = true;
-      setStatus(status, 'Enviando...');
-
-      const formData = new FormData(form);
-      const payload = {
-        source: 'contacto_general',
-        nombre: formData.get('nombre'),
-        email: formData.get('email'),
-        organizacion: formData.get('organizacion'),
-        motivo: formData.get('motivo'),
-        mensaje: formData.get('mensaje')
-      };
-
-      try {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          throw new Error('request_failed');
-        }
-
-        form.reset();
+      if (submitButton instanceof HTMLButtonElement) {
         submitButton.disabled = false;
-        setStatus(status, 'Mensaje enviado correctamente.');
-      } catch {
-        submitButton.disabled = false;
-        setStatus(status, 'No se pudo enviar el mensaje. Intenta de nuevo en unos momentos.', true);
+        submitButton.removeAttribute('aria-busy');
+        submitButton.textContent = 'Enviar mensaje';
       }
-    });
+    }
   });
 </script>
