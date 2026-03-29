@@ -1,0 +1,52 @@
+---
+import heroDesktop from '../assets/branding/illustrations/hero-professional-augmented-desktop.webp';
+import heroMobile from '../assets/branding/illustrations/hero-professional-augmented-mobile.webp';
+---
+
+<section class="section-space pt-10 sm:pt-14">
+  <div class="container-shell">
+    <div class="grid items-center gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+      <div class="max-w-2xl reveal" style="--reveal-order: 0;">
+        <h1 class="max-w-xl text-5xl leading-none font-semibold tracking-tight sm:text-6xl lg:text-[4.25rem]" style="color: var(--heading);">
+          Mente Aumentada
+        </h1>
+        <p class="mt-4 max-w-xl text-2xl leading-tight sm:text-3xl" style="color: var(--primary);">
+          Curso introductorio de IA aplicada a la psicología
+        </p>
+        <p class="mt-5 max-w-xl text-lg leading-8" style="color: var(--text-soft);">
+          Empieza con una introducción gratuita y anótate para la siguiente versión del curso.
+        </p>
+        <p class="mt-4 max-w-xl text-lg leading-8" style="color: var(--text-soft);">
+          Aprende a usar IA para organizar mejor tu consulta, reducir tareas repetitivas y dar seguimiento con más claridad, sin complicarte con tecnología.
+        </p>
+
+        <ul class="mt-5 flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:gap-x-5 sm:gap-y-2" style="color: var(--text-soft);">
+          <li>Sin conocimientos técnicos</li>
+          <li>Aplicado a consulta real</li>
+          <li>Introducción breve (menos de 15 min)</li>
+        </ul>
+
+        <div class="mt-7">
+          <a href="#audio" class="btn-primary">Escuchar introducción gratuita</a>
+          <p class="mt-3 text-sm" style="color: var(--text-soft);">
+            Acceso inmediato. Sin registro complicado.
+          </p>
+        </div>
+      </div>
+
+      <div class="surface-card interactive-lift overflow-hidden p-2 reveal" style="--reveal-order: 1;">
+        <picture>
+          <source srcset={heroDesktop.src} media="(min-width: 768px)" />
+          <img
+            src={heroMobile.src}
+            alt="Profesional de psicología ampliando su práctica con apoyo de inteligencia artificial"
+            class="h-full w-full rounded-[1.5rem] object-cover"
+            loading="eager"
+            width="1200"
+            height="1000"
+          />
+        </picture>
+      </div>
+    </div>
+  </div>
+</section>

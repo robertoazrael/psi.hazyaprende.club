@@ -1,0 +1,249 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import MainLeadForm from '../components/MainLeadForm.astro';
+import clarityImage from '../assets/branding/illustrations/section-clarity-workflow.webp';
+import humanSupportImage from '../assets/branding/illustrations/section-human-ai-support.webp';
+import moduleImage from '../assets/branding/illustrations/section-learning-module-1.webp';
+import ethicalImage from '../assets/branding/illustrations/section-ethical-practice.webp';
+
+const benefits = [
+  {
+    title: 'Observar y registrar mejor',
+    text: 'Convierte notas dispersas en registros más claros y utilizables, sin perder contexto clínico.'
+  },
+  {
+    title: 'Analizar y dar seguimiento con mayor claridad',
+    text: 'Detecta patrones, recupera antecedentes relevantes y prepara mejor el seguimiento entre sesiones.'
+  },
+  {
+    title: 'Organizar información clínica y operativa',
+    text: 'Reduce fricción en agendas, documentación, materiales y procesos que hoy consumen tiempo valioso.'
+  },
+  {
+    title: 'Comunicar y acompañar mejor',
+    text: 'Prepara mensajes, explicaciones y materiales de apoyo más claros para sostener mejor el proceso terapéutico.'
+  }
+];
+
+const syllabus = [
+  'Entender la IA sin miedo',
+  'Reducir carga operativa',
+  'Organizar mejor información',
+  'Dar seguimiento con más claridad',
+  'Comunicar y acompañar mejor',
+  'Integrar IA sin perder lo humano'
+];
+---
+
+<MainLayout
+  title="Mente Aumentada — IA para psicólogos sin perder lo humano"
+  description="Una introducción práctica y ética a la inteligencia artificial aplicada a la psicología. Libera tiempo, organiza mejor tu consulta y amplía tu capacidad profesional sin complicarte con tecnología."
+>
+  <Hero />
+
+  <section id="problema" class="section-space">
+    <div class="container-shell">
+      <div class="reveal" style="--reveal-order: 0;">
+        <SectionIntro
+          eyebrow="El problema"
+          title="La práctica se vuelve más exigente cuando todo depende de tu tiempo y tu atención."
+          copy="Sobrecarga operativa, poco tiempo para pacientes, información dispersa y una curiosidad legítima por la IA que suele mezclarse con confusión, ruido y miedo a usarla mal."
+        />
+      </div>
+      <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {[
+          'Demasiadas tareas operativas alrededor de cada consulta.',
+          'Poco espacio para pensar con calma entre casos y sesiones.',
+          'Información clínica y administrativa repartida en demasiados lugares.',
+          'Interés por la IA, pero sin una guía seria para usarla con criterio.'
+        ].map((item, index) => (
+          <div class="soft-panel interactive-lift reveal p-6" style={`--reveal-order: ${index + 1};`}>
+            <p class="text-base leading-7">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="enfoque" class="section-space pt-0">
+    <div class="container-shell">
+      <div class="surface-card reveal grid gap-8 p-8 lg:grid-cols-[1.05fr_0.95fr] lg:p-10" style="--reveal-order: 0;">
+        <div>
+          <SectionIntro
+            eyebrow="El enfoque"
+            title="La IA no viene a reemplazarte. Viene a ampliar tu capacidad profesional."
+            copy="Mente Aumentada parte de una idea simple: usar tecnología con criterio clínico, cuidado ético y objetivos concretos. No promete humo ni automatización irresponsable; propone trabajar mejor, atender mejor y sostener más capacidad de servicio."
+          />
+        </div>
+        <div class="grid gap-4">
+          {[
+            'Más claridad para analizar, priorizar y dar seguimiento.',
+            'Más tiempo para la relación terapéutica y la toma de decisiones humanas.',
+            'Menos fricción operativa en procesos que hoy te drenan energía.'
+          ].map((item, index) => (
+            <div class="rounded-[1.5rem] border p-5" style={`background: color-mix(in srgb, var(--bg-accent) 88%, transparent); --reveal-order: ${index + 1};`}>
+              <p class="text-base leading-7">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beneficios" class="section-space pt-0">
+    <div class="container-shell">
+      <div class="reveal" style="--reveal-order: 0;">
+        <SectionIntro
+          eyebrow="Beneficios"
+          title="Aplicaciones concretas para una práctica más clara, más ordenada y mejor acompañada."
+        />
+      </div>
+
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        {benefits.map((benefit, index) => (
+          <article class="surface-card interactive-lift reveal overflow-hidden" style={`--reveal-order: ${index + 1};`}>
+            <div class="grid gap-0 md:grid-cols-[0.9fr_1.1fr]">
+              <img
+                src={[clarityImage.src, humanSupportImage.src, moduleImage.src, clarityImage.src][index]}
+                alt={benefit.title}
+                class="h-full min-h-64 w-full object-cover"
+                loading="lazy"
+                width="900"
+                height="900"
+              />
+              <div class="p-6 sm:p-8">
+                <p class="text-sm font-medium uppercase tracking-[0.16em]" style="color: var(--primary);">
+                  Beneficio {index + 1}
+                </p>
+                <h3 class="mt-4 text-2xl font-semibold" style="color: var(--heading);">{benefit.title}</h3>
+                <p class="mt-4 text-base leading-8" style="color: var(--text-soft);">{benefit.text}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="marco-etico" class="section-space pt-0">
+    <div class="container-shell">
+      <div class="grid gap-8 lg:grid-cols-[1fr_0.92fr] lg:items-center">
+        <div class="reveal" style="--reveal-order: 0;">
+          <SectionIntro
+            eyebrow="Marco ético"
+            title="La tecnología apoya tareas y procesos. El criterio clínico sigue siendo humano."
+            copy="Este proyecto no propone sustituir terapia, automatizar decisiones clínicas ni delegar diagnóstico a una herramienta. Sí propone apoyar tareas operativas, análisis, seguimiento y comunicación con más orden y mejor criterio."
+          />
+          <ul class="mt-8 grid gap-3 text-base leading-7" style="color: var(--text-soft);">
+            <li class="soft-panel p-4">No reemplaza criterio clínico.</li>
+            <li class="soft-panel p-4">No sustituye terapia.</li>
+            <li class="soft-panel p-4">No diagnostica por sí sola.</li>
+            <li class="soft-panel p-4">Sí ayuda a sostener análisis, seguimiento y organización.</li>
+          </ul>
+        </div>
+
+        <div class="surface-card interactive-lift reveal overflow-hidden p-2" style="--reveal-order: 1;">
+          <img
+            src={ethicalImage.src}
+            alt="Práctica ética con apoyo tecnológico en psicología"
+            class="h-full w-full rounded-[1.5rem] object-cover"
+            loading="lazy"
+            width="1100"
+            height="1100"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="temario" class="section-space pt-0">
+    <div class="container-shell">
+      <div class="reveal" style="--reveal-order: 0;">
+        <SectionIntro
+          eyebrow="Temario del curso"
+          title="Este es el recorrido que se trabaja en la primera versión del curso."
+        />
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {syllabus.map((item, index) => (
+          <div class="soft-panel interactive-lift reveal p-6" style={`--reveal-order: ${index + 1};`}>
+            <p class="text-lg font-medium" style="color: var(--heading);">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <MainLeadForm />
+
+  <section id="quienes-somos" class="section-space pt-0">
+    <div class="container-shell">
+      <div class="surface-card reveal p-8 lg:p-10" style="--reveal-order: 0;">
+        <span class="eyebrow">Quiénes somos</span>
+        <h2 class="section-title">Mente Aumentada une experiencia clínica y experiencia técnica en un mismo curso.</h2>
+        <div class="mt-8 grid gap-6 lg:grid-cols-2">
+          <article class="soft-panel p-6">
+            <h3 class="text-2xl font-semibold" style="color: var(--heading);">Roberto Medina</h3>
+            <p class="mt-2 text-sm font-medium uppercase tracking-[0.14em]" style="color: var(--primary);">
+              Ingeniero de Software
+            </p>
+            <p class="mt-4 text-base leading-8" style="color: var(--text-soft);">
+              Especializado en desarrollo de sistemas y automatización, con enfoque en inteligencia artificial generativa desde sus primeras etapas. Ha desarrollado soluciones prácticas para integrar IA en procesos reales sin complejidad técnica innecesaria.
+            </p>
+          </article>
+
+          <article class="soft-panel p-6">
+            <h3 class="text-2xl font-semibold" style="color: var(--heading);">Alma Fernández</h3>
+            <p class="mt-2 text-sm font-medium uppercase tracking-[0.14em]" style="color: var(--primary);">
+              Psicóloga
+            </p>
+            <p class="mt-4 text-base leading-8" style="color: var(--text-soft);">
+              Con experiencia clínica y trabajo con pacientes en Mérida, Argentina y México. Especializada en acompañamiento y educación de personas mayores, con enfoque humano, claro y accesible.
+            </p>
+          </article>
+        </div>
+        <p class="mt-8 max-w-3xl text-lg leading-8" style="color: var(--text-soft);">
+          Este proyecto une dos perspectivas: la clínica y la técnica, para traducir herramientas complejas en procesos útiles dentro de la práctica real.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="manifiesto" class="section-space pt-0">
+    <div class="container-shell">
+      <div class="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+        <div class="soft-panel p-8">
+          <span class="eyebrow">Manifiesto</span>
+          <h2 class="text-3xl font-semibold tracking-tight" style="color: var(--heading);">
+            Pasar del miedo tecnológico a una expansión profesional con criterio.
+          </h2>
+        </div>
+        <div class="surface-card p-8">
+          <p class="text-lg leading-8" style="color: var(--text-soft);">
+            No se trata de parecer más moderno ni de automatizar por automatizar. Se trata de crear más espacio para pensar mejor, atender mejor y sostener mejor una práctica profesional exigente. La IA puede ser una extensión útil cuando se integra con límites claros, objetivos concretos y una ética que no se negocia.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-space pt-0">
+    <div class="container-shell">
+      <div class="surface-card p-8 text-center lg:p-12">
+        <span class="eyebrow">Cierre</span>
+        <h2 class="mx-auto max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl" style="color: var(--heading);">
+          Anótate a la siguiente versión del curso
+        </h2>
+        <p class="mx-auto mt-4 max-w-2xl text-base leading-8 sm:text-lg" style="color: var(--text-soft);">
+          El curso se está construyendo y actualizando. Puedes empezar con la introducción gratuita y anotarte para recibir acceso anticipado cuando esté disponible.
+        </p>
+        <div class="mt-8">
+          <a href="#audio" class="btn-primary">Escuchar introducción gratuita</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

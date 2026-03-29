@@ -1,0 +1,69 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+const audioUrl = '/audio/audio-modulo1.mp3';
+---
+
+<MainLayout
+  title="Gracias — Mente Aumentada"
+  description="Accede a la introducción gratuita en audio de Mente Aumentada y conoce el enfoque ético y práctico del proyecto."
+>
+  <section class="section-space">
+    <div class="container-shell">
+      <div class="mx-auto max-w-4xl space-y-8">
+        <div class="surface-card p-8 sm:p-10">
+          <span class="eyebrow">Registro exitoso</span>
+          <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl" style="color: var(--heading);">
+            Ya tienes acceso a la introducción gratuita
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg leading-8" style="color: var(--text-soft);">
+            Escúchala con calma. En este audio conocerás los conceptos base de IA aplicada a psicología que se usarán en el resto del curso.
+          </p>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div class="soft-panel p-6 sm:p-8">
+            <h2 class="text-2xl font-semibold tracking-tight" style="color: var(--heading);">
+              Antes de escucharlo
+            </h2>
+            <ul class="mt-5 space-y-3 text-base leading-8" style="color: var(--text-soft);">
+              <li>Qué es realmente la IA generativa</li>
+              <li>Qué son los LLM y por qué importan</li>
+              <li>Qué sí puede usar hoy un psicólogo</li>
+              <li>Qué no debe delegarse</li>
+            </ul>
+          </div>
+
+          <div class="surface-card p-6 sm:p-8">
+            <audio controls preload="none" class="w-full">
+              <source src={audioUrl} type="audio/mpeg" />
+              Tu navegador no soporta el reproductor de audio.
+            </audio>
+
+            <div class="mt-5 flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:justify-between" style="color: var(--text-soft);">
+              <p>Duración: 20:02</p>
+              <a href={audioUrl} download class="font-medium" style="color: var(--primary);">
+                Descargar audio
+              </a>
+            </div>
+
+            <p class="mt-4 text-sm leading-6" style="color: var(--text-soft);">
+              Puedes escucharlo ahora o guardarlo para después.
+            </p>
+          </div>
+        </div>
+
+        <div class="soft-panel p-8">
+          <h2 class="text-2xl font-semibold tracking-tight" style="color: var(--heading);">
+            ¿Quieres enterarte cuando esté disponible la siguiente versión del curso?
+          </h2>
+          <p class="mt-4 max-w-2xl text-base leading-8" style="color: var(--text-soft);">
+            Vuelve al formulario principal y deja tus datos para recibir el siguiente paso cuando esté disponible.
+          </p>
+          <div class="mt-6">
+            <a href="/#audio" class="btn-primary">Anotarme para el siguiente paso</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

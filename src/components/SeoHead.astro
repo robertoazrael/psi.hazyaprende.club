@@ -1,0 +1,40 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  pathname?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/src/assets/branding/social/og-default.webp',
+  pathname = Astro.url.pathname
+} = Astro.props;
+
+const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
+const ogImageUrl = Astro.site ? new URL(ogImage, Astro.site).toString() : ogImage;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<meta name="description" content={description} />
+<meta name="theme-color" content="#2F4A5A" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta property="og:locale" content="es_MX" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageUrl} />
+{canonical && <meta property="og:url" content={canonical} />}
+{canonical && <link rel="canonical" href={canonical} />}
+<title>{title}</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />

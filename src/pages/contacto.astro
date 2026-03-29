@@ -1,0 +1,25 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import SectionIntro from '../components/SectionIntro.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<MainLayout
+  title="Contacto — Mente Aumentada"
+  description="Contacto general de Mente Aumentada para consultas, colaboraciones o seguimiento sobre el proyecto."
+>
+  <section class="section-space">
+    <div class="container-shell">
+      <div class="grid gap-10 lg:grid-cols-[0.88fr_1.12fr]">
+        <div>
+          <SectionIntro
+            eyebrow="Contacto general"
+            title="Un espacio abierto para consultas, seguimiento o colaboraciones."
+            copy="Si necesitas escribir por una duda general, una propuesta institucional o una consulta sobre el proyecto, puedes hacerlo aquí. El tono de este espacio es informativo y directo."
+          />
+        </div>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</MainLayout>

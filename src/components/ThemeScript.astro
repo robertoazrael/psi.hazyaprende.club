@@ -1,0 +1,34 @@
+<script is:inline>
+  (() => {
+    const storageKey = 'mente-aumentada-theme';
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const stored = localStorage.getItem(storageKey);
+
+    const getTheme = () => {
+      if (stored === 'light' || stored === 'dark') return stored;
+      return media.matches ? 'dark' : 'light';
+    };
+
+    const applyTheme = (theme) => {
+      root.dataset.theme = theme;
+      root.classList.toggle('dark', theme === 'dark');
+      root.style.colorScheme = theme;
+    };
+
+    applyTheme(getTheme());
+
+    if (stored !== 'light' && stored !== 'dark') {
+      const syncWithSystem = (event) => applyTheme(event.matches ? 'dark' : 'light');
+      if (typeof media.addEventListener === 'function') {
+        media.addEventListener('change', syncWithSystem);
+      } else {
+        media.addListener(syncWithSystem);
+      }
+    }
+
+    requestAnimationFrame(() => {
+      root.classList.add('theme-animated');
+    });
+  })();
+</script>
