@@ -6,14 +6,20 @@ const links = [
   { href: '/#enfoque', label: 'Enfoque' },
   { href: '/#beneficios', label: 'Beneficios' },
   { href: '/#temario', label: 'Temario' },
-  { href: '/#audio', label: 'Empieza aquí' }
+  { href: '/contacto', label: 'Contacto' }
 ];
 ---
 
 <header class="sticky top-0 z-40 border-b backdrop-blur-xl" style="background: color-mix(in srgb, var(--bg) 82%, transparent);">
   <div class="container-shell flex min-h-20 items-center justify-between gap-4 py-3">
-    <a href="/" class="shrink-0" aria-label="Ir al inicio de Mente Aumentada">
-      <Logo />
+    <a href="/" class="flex min-w-0 shrink items-center gap-3" aria-label="Ir al inicio de Mente Aumentada">
+      <Logo className="shrink-0" />
+      <span
+        class="inline-flex rounded-full border px-2.5 py-1 text-[0.65rem] font-semibold tracking-[0.14em] sm:px-3 sm:text-xs"
+        style="color: var(--text-soft); background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);"
+      >
+        PSI + IA
+      </span>
     </a>
 
     <nav class="hidden items-center gap-6 md:flex" aria-label="Navegación principal">
@@ -25,7 +31,7 @@ const links = [
     </nav>
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <a href="/contacto" class="btn-secondary hidden px-4 sm:px-6 md:inline-flex">Contacto</a>
+      <a href="/#audio" class="btn-secondary px-4 sm:px-6">Empieza aquí</a>
       <ThemeToggle />
       <button
         type="button"
@@ -62,8 +68,8 @@ const links = [
           {link.label}
         </a>
       ))}
-      <a href="/contacto" class="rounded-2xl px-3 py-3 text-sm font-medium" style="color: var(--text-soft);">
-        Contacto
+      <a href="/#audio" class="rounded-2xl px-3 py-3 text-sm font-medium" style="color: var(--text-soft);">
+        Empieza aquí
       </a>
     </nav>
   </div>
