@@ -1,59 +1,410 @@
 ---
-const endpoint = import.meta.env.PUBLIC_CHATWEB_ENDPOINT;
+const chatEndpoint = import.meta.env.PUBLIC_CHATWEB_ENDPOINT ?? '';
 ---
 
-{endpoint && (
-  <>
-    <button
-      type="button"
-      class="fixed right-4 bottom-4 z-50 rounded-full border px-4 py-3 text-sm font-medium shadow-lg sm:right-6 sm:bottom-6"
-      style="background: color-mix(in srgb, var(--bg-elevated) 94%, transparent); color: var(--primary);"
-      data-chat-toggle
-      aria-expanded="false"
-      aria-controls="chat-panel"
-    >
-      Consulta rápida
-    </button>
+{chatEndpoint && (
+<div class="fixed bottom-5 right-5 z-[1200] md:bottom-8 md:right-8">
+	<button
+		id="chat-toggle"
+		type="button"
+		class="group flex h-14 w-14 items-center justify-center rounded-full border text-left backdrop-blur-md transition hover:-translate-y-0.5 md:h-15 md:w-15"
+		style="border-color: color-mix(in srgb, var(--accent) 34%, var(--border)); background: color-mix(in srgb, var(--bg-elevated) 92%, transparent); box-shadow: 0 20px 60px color-mix(in srgb, var(--primary) 20%, transparent);"
+		aria-expanded="false"
+		aria-controls="chat-panel"
+		aria-label="Abrir chat con el asistente virtual de Mente Aumentada"
+	>
+		<span
+			class="flex h-10 w-10 items-center justify-center rounded-full transition group-hover:scale-105"
+			style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: var(--primary-contrast); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);"
+		>
+			<svg viewBox="0 0 24 24" class="h-5 w-5" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+				<path d="M8 10h8" stroke-linecap="round"></path>
+				<path d="M8 14h5" stroke-linecap="round"></path>
+				<path d="M12 3c4.97 0 9 3.582 9 8s-4.03 8-9 8a10.6 10.6 0 0 1-3.217-.496L4 21l1.197-3.591C3.824 15.946 3 13.998 3 11c0-4.418 4.03-8 9-8Z" stroke-linejoin="round"></path>
+			</svg>
+		</span>
+		<span class="sr-only">Abrir chat con el asistente virtual de Mente Aumentada</span>
+	</button>
 
-    <div
-      id="chat-panel"
-      class="fixed right-4 bottom-20 z-50 hidden h-[32rem] w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] border shadow-2xl sm:right-6 sm:bottom-24"
-      style="background: var(--bg-elevated);"
-      data-chat-panel
-    >
-      <div class="flex items-center justify-between border-b px-4 py-3">
-        <div>
-          <p class="text-sm font-semibold" style="color: var(--heading);">Asistente de Mente Aumentada</p>
-          <p class="text-xs" style="color: var(--text-soft);">Espacio discreto para resolver dudas iniciales.</p>
-        </div>
-        <button type="button" class="rounded-full p-2" data-chat-close aria-label="Cerrar chat">✕</button>
-      </div>
-      <iframe
-        src={endpoint}
-        title="Chat de Mente Aumentada"
-        class="h-[calc(100%-65px)] w-full"
-        loading="lazy"
-      ></iframe>
-    </div>
+	<section
+		id="chat-panel"
+		class="chat-panel mt-4 hidden w-[min(92vw,24rem)] flex-col overflow-hidden rounded-[2rem] border backdrop-blur-xl md:w-[24rem]"
+		style="border-color: var(--border); background: color-mix(in srgb, var(--bg-elevated) 96%, transparent); color: var(--text); box-shadow: 0 24px 90px color-mix(in srgb, var(--primary) 16%, transparent);"
+		role="dialog"
+		aria-modal="false"
+		aria-labelledby="chat-title"
+	>
+		<header class="px-5 py-4" style="border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg-accent) 76%, transparent);">
+			<div class="flex items-start justify-between gap-4">
+				<div>
+					<h3 id="chat-title" class="text-lg font-semibold tracking-tight" style="color: var(--heading);">Asistente IA Virtual de Mente Aumentada</h3>
+					<p class="mt-1 text-sm leading-relaxed" style="color: var(--text-soft);">Resuelve dudas iniciales sobre el curso y su enfoque.</p>
+				</div>
+				<button
+					id="chat-close"
+					type="button"
+					class="rounded-full border px-3 py-1 text-[11px] font-bold uppercase tracking-[0.25em]"
+					style="border-color: var(--border); color: var(--text-soft); background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);"
+					aria-label="Cerrar chat"
+				>
+					Cerrar
+				</button>
+			</div>
+		</header>
 
-    <script is:inline>
-      const toggle = document.querySelector('[data-chat-toggle]');
-      const panel = document.querySelector('[data-chat-panel]');
-      const close = document.querySelector('[data-chat-close]');
+		<div id="chat-messages" class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 py-4" aria-live="polite"></div>
 
-      if (toggle && panel && close) {
-        const setOpen = (open) => {
-          panel.classList.toggle('hidden', !open);
-          toggle.setAttribute('aria-expanded', String(open));
-        };
+		<div
+			id="chat-error"
+			class="hidden px-4 py-3 text-sm"
+			style="border-top: 1px solid color-mix(in srgb, #b74d4d 28%, var(--border)); background: color-mix(in srgb, #b74d4d 10%, var(--bg-elevated)); color: #8b2f2f;"
+			role="alert"
+		></div>
 
-        toggle.addEventListener('click', () => {
-          const open = panel.classList.contains('hidden');
-          setOpen(open);
-        });
-
-        close.addEventListener('click', () => setOpen(false));
-      }
-    </script>
-  </>
+		<form id="chat-form" class="p-4" style="border-top: 1px solid var(--border); background: color-mix(in srgb, var(--bg-accent) 44%, transparent);">
+			<label for="chat-input" class="mb-2 block text-[11px] font-bold uppercase tracking-[0.25em]" style="color: var(--text-soft);">Escribe tu mensaje</label>
+			<textarea
+				id="chat-input"
+				name="chatInput"
+				rows="1"
+				class="max-h-40 min-h-12 w-full resize-none rounded-2xl border px-4 py-3 text-sm outline-none transition"
+				style="border-color: var(--border); background: color-mix(in srgb, var(--bg-elevated) 92%, transparent); color: var(--text);"
+				placeholder="Cuéntame qué quieres saber sobre Mente Aumentada."
+			></textarea>
+			<div class="mt-3 flex items-center justify-between gap-3">
+				<p class="text-xs leading-relaxed" style="color: var(--text-soft);">Tus mensajes se guardan localmente para continuar la conversación en esta sesión.</p>
+				<button
+					id="chat-submit"
+					type="submit"
+					class="rounded-full px-5 py-3 text-[11px] font-black uppercase tracking-[0.3em] transition disabled:cursor-not-allowed disabled:opacity-60"
+					style="background: var(--primary); color: var(--primary-contrast); box-shadow: 0 14px 30px color-mix(in srgb, var(--primary) 26%, transparent);"
+				>
+					<span id="chat-submit-label">Enviar</span>
+				</button>
+			</div>
+		</form>
+	</section>
+</div>
 )}
+
+<script define:vars={{ chatEndpoint }}>
+	const toggleButton = document.getElementById('chat-toggle');
+	const panel = document.getElementById('chat-panel');
+	const closeButton = document.getElementById('chat-close');
+	const form = document.getElementById('chat-form');
+	const input = document.getElementById('chat-input');
+	const submitButton = document.getElementById('chat-submit');
+	const submitLabel = document.getElementById('chat-submit-label');
+	const messagesContainer = document.getElementById('chat-messages');
+	const errorContainer = document.getElementById('chat-error');
+	const navbar = document.querySelector('nav');
+
+	const STORAGE_KEYS = {
+		history: 'mente-aumentada-chat-history',
+		sessionId: 'mente-aumentada-chat-session-id'
+	};
+
+	const initialMessage = {
+		id: 'welcome-message',
+		role: 'assistant',
+		content:
+			'Hola. Soy el asistente virtual de Mente Aumentada. Puedo ayudarte a entender mejor el curso, su enfoque y cómo aplicar IA en la práctica psicológica sin perder el criterio humano. ¿Qué te gustaría consultar?'
+	};
+
+	let isOpen = false;
+	let isLoading = false;
+	let history = [];
+	let sessionId = '';
+
+	const scrollToBottom = () => {
+		if (messagesContainer) {
+			messagesContainer.scrollTop = messagesContainer.scrollHeight;
+		}
+	};
+
+	const syncPanelViewport = () => {
+		if (!panel) return;
+		// Compensa el menú sticky para que el header del chat y su botón de cierre sigan visibles en desktop y mobile.
+		const stickyOffset = navbar instanceof HTMLElement ? Math.ceil(navbar.getBoundingClientRect().bottom) : 72;
+		panel.style.setProperty('--chat-safe-top', `${Math.max(stickyOffset, 72)}px`);
+	};
+
+	const autoResize = () => {
+		if (!(input instanceof HTMLTextAreaElement)) return;
+		input.style.height = 'auto';
+		input.style.height = `${Math.min(input.scrollHeight, 160)}px`;
+	};
+
+	const setError = (message) => {
+		if (!errorContainer) return;
+		if (!message) {
+			errorContainer.textContent = '';
+			errorContainer.classList.add('hidden');
+			return;
+		}
+		errorContainer.textContent = message;
+		errorContainer.classList.remove('hidden');
+	};
+
+	const setLoading = (nextValue) => {
+		isLoading = nextValue;
+		if (submitButton instanceof HTMLButtonElement) {
+			submitButton.disabled = nextValue;
+		}
+		if (input instanceof HTMLTextAreaElement) {
+			input.disabled = nextValue;
+		}
+		if (submitLabel) {
+			submitLabel.textContent = nextValue ? 'Enviando...' : 'Enviar';
+		}
+	};
+
+	const persistHistory = () => {
+		localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(history));
+	};
+
+	const getSessionId = () => {
+		const storedSessionId = localStorage.getItem(STORAGE_KEYS.sessionId);
+		if (storedSessionId) return storedSessionId;
+		const nextSessionId = typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `session-${Date.now()}`;
+		localStorage.setItem(STORAGE_KEYS.sessionId, nextSessionId);
+		return nextSessionId;
+	};
+
+	const renderMessages = () => {
+		if (!messagesContainer) return;
+		messagesContainer.innerHTML = '';
+		history.forEach((message) => {
+			const wrapper = document.createElement('div');
+			wrapper.className = `flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`;
+
+			const bubble = document.createElement('article');
+			bubble.className =
+				message.role === 'user'
+					? 'max-w-[85%] rounded-[1.4rem] rounded-br-md px-4 py-3 text-sm leading-relaxed'
+					: 'max-w-[85%] rounded-[1.4rem] rounded-bl-md border px-4 py-3 text-sm leading-relaxed';
+
+			if (message.role === 'user') {
+				bubble.style.background = 'color-mix(in srgb, var(--accent) 70%, var(--bg-elevated))';
+				bubble.style.color = 'var(--heading)';
+			} else {
+				bubble.style.borderColor = 'var(--border)';
+				bubble.style.background = 'color-mix(in srgb, var(--bg-accent) 70%, var(--bg-elevated))';
+				bubble.style.color = 'var(--text)';
+			}
+
+			const label = document.createElement('p');
+			label.className = 'mb-2 text-[10px] font-black uppercase tracking-[0.25em]';
+			label.style.color = message.role === 'user' ? 'color-mix(in srgb, var(--heading) 70%, transparent)' : 'var(--primary)';
+			label.textContent = message.role === 'user' ? 'Tú' : 'Asistente IA';
+
+			const text = document.createElement('p');
+			text.className = 'whitespace-pre-wrap';
+			text.textContent = message.content;
+
+			bubble.append(label, text);
+			wrapper.appendChild(bubble);
+			messagesContainer.appendChild(wrapper);
+		});
+		scrollToBottom();
+	};
+
+	const renderTyping = () => {
+		if (!messagesContainer || document.getElementById('chat-typing')) return;
+		const wrapper = document.createElement('div');
+		wrapper.id = 'chat-typing';
+		wrapper.className = 'flex justify-start';
+		wrapper.innerHTML = `
+			<div class="max-w-[85%] rounded-[1.4rem] rounded-bl-md border px-4 py-3 shadow-[0_16px_50px_color-mix(in_srgb,var(--primary)_12%,transparent)]" style="border-color: var(--border); background: color-mix(in srgb, var(--bg-accent) 70%, var(--bg-elevated)); color: var(--text);">
+				<p class="mb-2 text-[10px] font-black uppercase tracking-[0.25em]" style="color: var(--primary);">Asistente IA</p>
+				<div class="inline-flex items-center rounded-full border px-3 py-2" style="border-color: var(--border); background: color-mix(in srgb, var(--bg-elevated) 70%, transparent);" aria-label="El asistente está escribiendo" aria-live="polite">
+					<!-- Indicador temporal de escritura: no debe persistir como mensaje real en el historial del chat. -->
+					<span class="flex items-center gap-2" aria-hidden="true">
+					<span class="chat-dot"></span>
+					<span class="chat-dot"></span>
+					<span class="chat-dot"></span>
+					</span>
+				</div>
+			</div>
+		`;
+		messagesContainer.appendChild(wrapper);
+		scrollToBottom();
+	};
+
+	const clearTyping = () => {
+		document.getElementById('chat-typing')?.remove();
+	};
+
+	const ensureHistory = () => {
+		const storedHistory = localStorage.getItem(STORAGE_KEYS.history);
+		if (!storedHistory) {
+			history = [initialMessage];
+			persistHistory();
+			return;
+		}
+
+		try {
+			const parsedHistory = JSON.parse(storedHistory);
+			history = Array.isArray(parsedHistory) && parsedHistory.length > 0 ? parsedHistory : [initialMessage];
+		} catch {
+			history = [initialMessage];
+		}
+		persistHistory();
+	};
+
+	const togglePanel = (nextOpen) => {
+		isOpen = nextOpen;
+		if (!panel || !(toggleButton instanceof HTMLButtonElement)) return;
+		panel.classList.toggle('hidden', !nextOpen);
+		// Fuerza layout flex solo cuando el chat está abierto; sin esto el área de mensajes pierde scroll interno.
+		panel.classList.toggle('flex', nextOpen);
+		toggleButton.setAttribute('aria-expanded', String(nextOpen));
+		if (nextOpen) {
+			scrollToBottom();
+			input?.focus();
+		}
+	};
+
+	ensureHistory();
+	sessionId = getSessionId();
+	syncPanelViewport();
+	renderMessages();
+
+	toggleButton?.addEventListener('click', () => {
+		togglePanel(!isOpen);
+	});
+
+	closeButton?.addEventListener('click', () => {
+		togglePanel(false);
+	});
+
+	if (input instanceof HTMLTextAreaElement) {
+		input.addEventListener('input', () => {
+			autoResize();
+			if (setError) setError('');
+		});
+		input.addEventListener('keydown', (event) => {
+			if (event.key === 'Enter' && !event.shiftKey) {
+				event.preventDefault();
+				if (!isLoading) {
+					form?.requestSubmit();
+				}
+			}
+		});
+		autoResize();
+	}
+
+	// Recalcula la altura útil del panel si cambia el viewport; no debe alterar el flujo normal de apertura o cierre.
+	window.addEventListener('resize', syncPanelViewport);
+
+	if (form instanceof HTMLFormElement && input instanceof HTMLTextAreaElement) {
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			setError('');
+
+			if (!chatEndpoint) {
+				setError('Falta configurar el endpoint público del chat.');
+				return;
+			}
+
+			const chatInput = input.value.trim();
+			if (!chatInput || isLoading) return;
+
+			history.push({
+				id: `user-${Date.now()}`,
+				role: 'user',
+				content: chatInput
+			});
+			persistHistory();
+			renderMessages();
+
+			input.value = '';
+			autoResize();
+			setLoading(true);
+			renderTyping();
+
+			try {
+				const response = await fetch(chatEndpoint, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						chatInput,
+						sessionId
+					})
+				});
+
+				if (!response.ok) {
+					throw new Error(`HTTP ${response.status}`);
+				}
+
+				const data = await response.json();
+				const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
+
+				if (!reply) {
+					throw new Error('Missing reply field');
+				}
+
+				clearTyping();
+				history.push({
+					id: `assistant-${Date.now()}`,
+					role: 'assistant',
+					content: reply
+				});
+				persistHistory();
+				renderMessages();
+			} catch (error) {
+				console.error('Error sending chat message', error);
+				setError('No pudimos conectar con el asistente en este momento. Intenta de nuevo en unos minutos.');
+			} finally {
+				clearTyping();
+				setLoading(false);
+			}
+		});
+	}
+</script>
+
+<style>
+	.chat-panel {
+		/* Ajuste de altura máxima del chat para que el header no quede oculto bajo el menú sticky. */
+		max-height: calc(100dvh - var(--chat-safe-top, 72px) - 1.25rem);
+	}
+
+	:global(.chat-dot) {
+		display: inline-block;
+		width: 0.65rem;
+		height: 0.65rem;
+		border-radius: 9999px;
+		background: rgb(34, 211, 238);
+		box-shadow: 0 0 0.8rem rgba(34, 211, 238, 0.8);
+		opacity: 0.28;
+		transform: translateY(0) scale(0.88);
+		animation: chat-bounce 1s infinite ease-in-out;
+		flex-shrink: 0;
+		will-change: transform, opacity;
+	}
+
+	:global(.chat-dot:nth-child(1)) {
+		animation-delay: 0s;
+	}
+
+	:global(.chat-dot:nth-child(2)) {
+		animation-delay: 0.18s;
+	}
+
+	:global(.chat-dot:nth-child(3)) {
+		animation-delay: 0.36s;
+	}
+
+	@keyframes chat-bounce {
+		0%, 80%, 100% {
+			transform: translateY(0) scale(0.88);
+			opacity: 0.28;
+		}
+		40% {
+			transform: translateY(-0.38rem) scale(1.08);
+			opacity: 1;
+		}
+	}
+</style>
